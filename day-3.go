@@ -15,10 +15,11 @@ func day3() {
 
 	text := make([][]byte, 0)
 
-	var i int
 	for scanner.Scan() {
-		text = append(text, scanner.Bytes())
-		i++
+		src := scanner.Bytes()
+		dst := make([]byte, len(src))
+		copy(dst, src)
+		text = append(text, dst)
 	}
 
 	matrix := Matrix{bytes: text}
