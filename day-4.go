@@ -27,13 +27,24 @@ func day4() {
 		text = append(text, dst)
 	}
 
-	var sum int
-
-	for _, line := range text {
+	cards := make([]Card, len(text))
+	for i, line := range text {
 		stripped := stripPrefix(string(line))
 		card := parseCard(stripped)
+		cards[i] = card
+	}
 
-		sum += card.getScore()
+	var sum int
+	for i, card := range cards {
+		matches := card.getMatches()
+
+		for j := 1; j <= len(matches); j++ {
+			if i+j < len(cards) {
+				cards[i+j].addClone(card.instances)
+			}
+		}
+
+		sum += card.instances
 	}
 
 	fmt.Println(sum)
@@ -59,8 +70,9 @@ func parseCard(line string) Card {
 	rightFilter := filterEmpty(right)
 
 	return Card{
-		left:  strToInt(leftFilter),
-		right: strToInt(rightFilter),
+		left:      strToInt(leftFilter),
+		right:     strToInt(rightFilter),
+		instances: 1,
 	}
 }
 
@@ -77,17 +89,20 @@ func strToInt(nums []string) []int {
 }
 
 type Card struct {
-	left  []int
-	right []int
+	left      []int
+	right     []int
+	instances int
 }
 
-func (this Card) getScore() int {
-	matches := this.findMatches()
+func (this *Card) getScore() int {
+	matches := this.getMatches()
 
-	return int(math.Pow(2, float64(len(matches)-1)))
+	power := len(matches) - 1
+
+	return int(math.Pow(float64(2), float64(power)))
 }
 
-func (this Card) findMatches() []int {
+func (this *Card) getMatches() []int {
 	matches := make([]int, 0)
 	for _, v := range this.right {
 		if contains(this.left, v) {
@@ -95,6 +110,10 @@ func (this Card) findMatches() []int {
 		}
 	}
 	return matches
+}
+
+func (this *Card) addClone(i int) {
+	this.instances += i
 }
 
 func contains(hay []int, needle int) bool {
