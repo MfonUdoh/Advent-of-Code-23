@@ -1,4 +1,4 @@
-package main
+package day3
 
 import (
 	"bufio"
@@ -8,8 +8,8 @@ import (
 	"unicode"
 )
 
-func day3() {
-	file, _ := os.Open("day-3-input.txt")
+func Day3() {
+	file, _ := os.Open("./input/day-3-input.txt")
 
 	scanner := bufio.NewScanner(file)
 

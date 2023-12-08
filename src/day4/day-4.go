@@ -1,4 +1,4 @@
-package main
+package day4
 
 import (
 	"bufio"
@@ -9,8 +9,8 @@ import (
 	"strings"
 )
 
-func day4() {
-	file, err := os.Open("day-4-input.txt")
+func Day4() {
+	file, err := os.Open("./input/day-4-input.txt")
 
 	if err != nil {
 		panic(err.Error())
