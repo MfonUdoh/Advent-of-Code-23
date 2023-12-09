@@ -7,5 +7,5 @@ import (
 
 func main() {
 	fmt.Println("Hi")
-	day5.Day5()
+	day5.Day5p2()
 }
